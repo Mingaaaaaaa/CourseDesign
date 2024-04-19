@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>System</class>
+ <widget class="QWidget" name="System">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1180</width>
+    <height>510</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1180</width>
+    <height>510</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1180</width>
+    <height>510</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>人脸识别系统</string>
+  </property>
+  <widget class="QPushButton" name="switchButton">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>470</y>
+     <width>201</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>打开摄像头</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="displayField">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>0</y>
+     <width>691</width>
+     <height>509</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>0</height>
+    </size>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background: white</string>
+   </property>
+   <property name="text">
+    <string>摄像头尚未开启</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="openRecognition">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>940</x>
+     <y>120</y>
+     <width>101</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>开启人脸识别</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="recogMethod">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>940</x>
+     <y>150</y>
+     <width>231</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="editable">
+    <bool>false</bool>
+   </property>
+   <property name="currentIndex">
+    <number>0</number>
+   </property>
+   <item>
+    <property name="text">
+     <string>classic</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>mindspore</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QTextEdit" name="logText">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>30</y>
+     <width>201</width>
+     <height>331</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>111</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>程序运行 Log</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="startTrainButton">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>440</y>
+     <width>201</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>开始训练</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="openDetection">
+   <property name="geometry">
+    <rect>
+     <x>940</x>
+     <y>50</y>
+     <width>111</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>开启人脸检测</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>940</x>
+     <y>20</y>
+     <width>58</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>人脸选项</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="detectMethod">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>940</x>
+     <y>80</y>
+     <width>231</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="editable">
+    <bool>false</bool>
+   </property>
+   <property name="currentIndex">
+    <number>0</number>
+   </property>
+   <item>
+    <property name="text">
+     <string>classic</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>mediapipe</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>mindspore</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>940</x>
+     <y>230</y>
+     <width>58</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>结果</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="imgRegister">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>410</y>
+     <width>201</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>图片采集</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="loadMindSporeFace">
+   <property name="geometry">
+    <rect>
+     <x>944</x>
+     <y>180</y>
+     <width>221</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>载入 mindspore 人脸</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="resultFace">
+   <property name="geometry">
+    <rect>
+     <x>1010</x>
+     <y>260</y>
+     <width>91</width>
+     <height>101</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>.AppleSystemUIFont</family>
+    </font>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: white;
+color: black</string>
+   </property>
+   <property name="text">
+    <string>检测中</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="resultLabel">
+   <property name="geometry">
+    <rect>
+     <x>1010</x>
+     <y>380</y>
+     <width>91</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>检测中</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="nameInput">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>380</y>
+     <width>201</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
