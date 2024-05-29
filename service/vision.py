@@ -1,6 +1,7 @@
 import os.path
 import threading
 from queue import Queue
+from deepface import DeepFace
 
 import PIL
 import cv2
@@ -23,7 +24,6 @@ import multiprocessing
 import requests
 from requests_toolbelt import MultipartEncoder
 from time import sleep
-
 
 class VisionService(QThread):
     """
@@ -137,6 +137,19 @@ class ReadCameraThread(threading.Thread):
                 face_img = self.vision_tools.cut_face(frame, faces[0])
                 if self.recogQueue.empty():
                     self.recogQueue.put(face_img)
+                    # Convert frame to grayscale
+                    gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+                    # Convert grayscale frame to RGB format
+                    rgb_frame = cv2.cvtColor(gray_frame, cv2.COLOR_GRAY2RGB)
+                    # Detect faces in the frame
+                    for (x, y, w, h) in faces:
+                        # Extract the face ROI (Region of Interest)
+                        face_roi = rgb_frame[y:y + h, x:x + w]
+                        # Perform emotion analysis on the face ROI
+                        result = DeepFace.analyze(face_roi, actions=['emotion'], enforce_detection=False)
+                        # Determine the dominant emotion
+                        emotion = result[0]['dominant_emotion']
+                        draw_text(res, emotion, faces[0][0], faces[0][1] - 10)
             if frame is not None:
                 self.video_queue['video'].put(frame)
             if res is not None:
@@ -192,7 +205,7 @@ class ClassicFaceRecognizer:
             self.face_recognizer = cv2.face.FisherFaceRecognizer.create()
 
     def train(self, putLog):
-        self.training_thread = ClassicTrainingDataThread(self.vision, "dataset/B210413/full", self.method)
+        self.training_thread = ClassicTrainingDataThread(self.vision, "dataset/full", self.method)
         self.training_thread.log_signal.connect(putLog)
         self.training_thread.finish_signal.connect(self.finish_training)
         self.training_thread.start()
@@ -411,24 +424,6 @@ class RecogThread(QThread):
                     label, possibility = classicFaceRecognize(faces, self.classicFaceRecognizer)
                     print(f"possibility: {possibility} name: {label}")
                     self.resultSignal.emit(f"B{label}")
-                if self.config.get_config('recog_method') == self.config.recog_methods_mapper['mindspore']:
-                    # 发请求到mindfaceServer
-                    cv2.imwrite('temp/recog.jpg', faces)
-                    url = "http://114.116.250.18:8000/recognize"
-                    m = MultipartEncoder(
-                        fields={'photo': ('recog.jpg', open('temp/recog.jpg', 'rb'), 'image/jpeg')}
-                    )
-                    headers = {
-                        'Content-Type': m.content_type,
-                    }
-                    response = requests.request("POST", headers=headers, url=url, data=m)
-                    sleep(3)
-                    print(response)
-                    if response.status_code == 200:
-                        self.resultSignal.emit(response.json()['name'])
-                    else:
-                        # self.resultSignal.emit("未知")
-                        pass
 
 class RegisterThread(QThread):
     def __init__(self, registerResultSignal):
@@ -442,25 +437,10 @@ class RegisterThread(QThread):
             if not self.registerQueue.empty():
                 faces, name = self.registerQueue.get()
                 cv2.imwrite('temp/register.jpg', faces)
-                url = "http://114.116.250.18:8000/register"
-                m = MultipartEncoder(
-                    fields={'name': name, 'photo': ('register.jpg',
-                                                    open('temp/register.jpg',
-                                                         'rb'), 'image/jpeg')}
-                )
-                headers = {
-                    'Content-Type': m.content_type,
-                }
-                response = requests.request("POST", headers=headers, url=url, data=m)
-                print(response)
-                if response.status_code == 200:
-                    self.registerResultSignal.emit("注册成功")
-                    os.path.exists('temp/register.jpg') and os.remove('temp/register.jpg')
-                    # 检查dataset/full下是否有该人的文件夹，没有则创建
-                    if not os.path.exists(f'dataset/full/{name}'):
-                        os.makedirs(f'dataset/full/{name}')
-                    # 将照片保存到dataset/full下
-                    cv2.imwrite(f'dataset/full/{name}/{name}.jpg', faces)
-                else:
-                    self.registerResultSignal.emit("注册失败")
-                    os.path.exists('temp/register.jpg') and os.remove('temp/register.jpg')
+                self.registerResultSignal.emit("注册成功")
+                os.path.exists('temp/register.jpg') and os.remove('temp/register.jpg')
+                # 检查dataset/full下是否有该人的文件夹，没有则创建
+                if not os.path.exists(f'dataset/full/{name}'):
+                    os.makedirs(f'dataset/full/{name}')
+                # 将照片保存到dataset/full下
+                cv2.imwrite(f'dataset/full/{name}/{name}.jpg', faces)

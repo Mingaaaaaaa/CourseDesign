@@ -146,7 +146,7 @@ class MainPage(QMainWindow, Ui_System):
     def recogOutput(self, result):
         self.resultLabel.setText(result)
         picList = os.listdir(os.path.join('dataset', 'full', result))
-        resPic = cv2.imread(os.path.join('dataset', 'full', result, picList[3]))
+        resPic = cv2.imread(os.path.join('dataset', 'full', result, picList[0]))
         self.displayImage(resPic, self.resultFace)
 
     def logOutput(self, log):

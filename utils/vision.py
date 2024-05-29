@@ -26,7 +26,7 @@ def draw_rectangle(img, rect):
 
 class VisionTools:
     def __init__(self):
-        self.face_cascade = cv2.CascadeClassifier('pretrained/lbpcascade_frontalface_improved.xml')
+        self.face_cascade = cv2.CascadeClassifier('pretrained/haarcascade_frontalface_default.xml')
         pass
 
     def lbp_detect_face(self, frame):
@@ -76,7 +76,6 @@ class VisionTools:
             label = dir_name
             subject_dir_path = os.path.join(data_folder_path, dir_name)
             subject_images_names = os.listdir(subject_dir_path)
-
             for image_name in subject_images_names:
 
                 if image_name.startswith("."):
@@ -105,5 +104,4 @@ class VisionTools:
         cv2.destroyAllWindows()
         cv2.waitKey(1)
         cv2.destroyAllWindows()
-
         return faces, numpy.array(labels)
