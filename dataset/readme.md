@@ -2,12 +2,10 @@
 
 ```
 /dataset 
-    /train
-        /label_name
+    /full
+        /label_name(学号：Bxxxxxxxx)
             file.jpg
             ......
-        .......
-    /val
         .......
 ```
 
